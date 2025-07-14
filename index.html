@@ -1,12 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evaluation Finale - Nesrine BERRA</title>
+    <title>Hello World - DevOps Evaluation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 500px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+        p {
+            color: #666;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .version {
+            background: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-family: monospace;
+            color: #555;
+        }
+        .badge {
+            background: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
-    <h1>Evaluation Finale - Nesrine BERRA</h1>
-    <p>Bienvenue à l'évaluation finale de Nesrine BERRA. Cette page est dédiée à la présentation de son travail et de ses compétences.</p>
+    <div class="container">
+        <h1>Hello World!</h1>
+        <p>Bienvenue dans l'évaluation DevOps</p>
+        <p>Cette application simple démontre l'intégration GitHub + Jenkins</p>
+        <div class="version">
+            Version: 1.0.0<br>
+            Build: <span id="build-time"></span>
+        </div>
+        <div class="badge">✓ Déployé avec succès</div>
+    </div>
+
+    <script>
+        // Afficher la date/heure de build
+        document.getElementById('build-time').textContent = new Date().toLocaleString();
+    </script>
 </body>
 </html>
