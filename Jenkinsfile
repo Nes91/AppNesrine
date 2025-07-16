@@ -7,7 +7,7 @@ pipeline {
         // 'hudson.plugins.sonar.SonarRunnerInstallation' 'Sonarqube Scanner'
         
         // Option 2: Si vous changez le nom vers "SonarQube Scanner"
-        'hudson.plugins.sonar.SonarRunnerInstallation' 'SonarQube Scanner'
+        'hudson.plugins.sonar.SonarRunnerInstallation' 'sonar-scanner'
     }
     
     stages {
@@ -23,7 +23,7 @@ pipeline {
                 echo '🔍 Analyse SonarQube...'
                 script {
                     // Utilisez le même nom que dans la section tools
-                    def scannerHome = tool 'SonarQube Scanner'
+                    def scannerHome = tool 'sonar-scanner'
                     
                     // Créez un fichier sonar-project.properties si il n'existe pas
                     writeFile file: 'sonar-project.properties', text: '''
