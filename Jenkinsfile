@@ -25,8 +25,8 @@ pipeline {
                     
                     // Créez le fichier de configuration avec plus de détails
                     writeFile file: 'sonar-project.properties', text: '''
-sonar.projectKey=AppNesrine
-sonar.projectName=AppNesrine
+sonar.projectKey=devops-eval
+sonar.projectName=devops-eval
 sonar.projectVersion=1.0.0
 sonar.sources=.
 sonar.sourceEncoding=UTF-8
