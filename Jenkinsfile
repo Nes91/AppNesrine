@@ -2,11 +2,6 @@ pipeline {
     agent any
     
     tools {
-        // Utilisez exactement le même nom que dans Global Tool Configuration
-        // Option 1: Si vous avez "Sonarqube Scanner"
-        // 'hudson.plugins.sonar.SonarRunnerInstallation' 'Sonarqube Scanner'
-        
-        // Option 2: Si vous changez le nom vers "SonarQube Scanner"
         'hudson.plugins.sonar.SonarRunnerInstallation' 'sonar-scanner'
     }
     
@@ -22,22 +17,40 @@ pipeline {
             steps {
                 echo '🔍 Analyse SonarQube...'
                 script {
-                    // Utilisez le même nom que dans la section tools
                     def scannerHome = tool 'sonar-scanner'
                     
-                    // Créez un fichier sonar-project.properties si il n'existe pas
+                    // Vérifiez que le scanner est trouvé
+                    echo "Scanner Home: ${scannerHome}"
+                    sh "ls -la ${scannerHome}/bin/"
+                    
+                    // Créez le fichier de configuration avec plus de détails
                     writeFile file: 'sonar-project.properties', text: '''
 sonar.projectKey=AppNesrine
 sonar.projectName=AppNesrine
 sonar.projectVersion=1.0.0
 sonar.sources=.
 sonar.sourceEncoding=UTF-8
-sonar.exclusions=**/node_modules/**,**/*.log
+sonar.exclusions=**/node_modules/**,**/*.log,**/sonar-scanner/**
+sonar.verbose=true
 '''
                     
-                    // Exécutez l'analyse SonarQube
+                    // Affichez le contenu du fichier
+                    sh "cat sonar-project.properties"
+                    
+                    // Testez la connexion avant l'analyse
                     withSonarQubeEnv('SonarQube') {
-                        sh "${scannerHome}/bin/sonar-scanner"
+                        echo "SONAR_HOST_URL: ${env.SONAR_HOST_URL}"
+                        echo "SONAR_AUTH_TOKEN: ${env.SONAR_AUTH_TOKEN ? 'Token présent' : 'Token manquant'}"
+                        
+                        // Exécutez avec plus de verbosité
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                                -Dsonar.projectKey=AppNesrine \
+                                -Dsonar.sources=. \
+                                -Dsonar.host.url=\${SONAR_HOST_URL} \
+                                -Dsonar.login=\${SONAR_AUTH_TOKEN} \
+                                -Dsonar.verbose=true
+                        """
                     }
                 }
             }
@@ -46,7 +59,6 @@ sonar.exclusions=**/node_modules/**,**/*.log
         stage('Quality Gate') {
             steps {
                 script {
-                    // Attendez le résultat de Quality Gate
                     timeout(time: 1, unit: 'HOURS') {
                         def qg = waitForQualityGate()
                         if (qg.status != 'OK') {
@@ -60,7 +72,7 @@ sonar.exclusions=**/node_modules/**,**/*.log
         stage('Deploy') {
             steps {
                 echo '🚀 Déploiement...'
-                // Ajoutez vos étapes de déploiement ici
+                sh 'echo "Déploiement simulé"'
             }
         }
     }
